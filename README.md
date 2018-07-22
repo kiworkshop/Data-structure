@@ -12,7 +12,7 @@
 | Linked list: application     |        |        |        |        |        |
 | Stack: infix to postfix      |        |        |        |        |        |
 | Stack: postfix evaluation    |        |        |        |        |        |
-| Queue: cirqular queue        |        |        |        |        |        |
+| Queue: circular queue        |        |        |        |        |        |
 | Heap: max heap               |        |        |        |        |        |
 | Binary search tree: basic    |        |        |        |        |        |
 | Binary search tree: AVL tree |        |        |        |        |        |
