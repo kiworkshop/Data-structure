@@ -21,6 +21,17 @@ void MakeNewList(struct Node **initial_node)
     *initial_node = MakeNode(-1);
 }
 
+struct Node *FindNode(struct Node *linked_list, int key_element)
+{
+    struct Node *checked_node = linked_list;
+
+    while ((checked_node != NULL) && (checked_node->element != key_element)){
+        checked_node = checked_node->next;
+    }
+
+    return checked_node;
+}
+
 int main(int argc, const char *argv[])
 {
 
