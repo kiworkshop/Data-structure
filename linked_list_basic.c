@@ -137,6 +137,24 @@ void ExecuteBufferLine(struct Node *list, char *buffer)
 
 int main(int argc, const char *argv[])
 {
+    struct Node *list;
+    char buffer[10];
+
+    MakeNewList(&list);
+
+    for(int i=0; i<argc; i++){
+         printf("%s\n", argv[i]);
+    }
+    
+    FILE *fp = fopen(argv[1],"r");
+
+    while(1){
+        if(fgets(buffer, sizeof(buffer), fp)==NULL) break;
+        
+        ExecuteBufferLine(list, buffer);
+    }
+
+    fclose(fp);
 
     return 0;
 }
