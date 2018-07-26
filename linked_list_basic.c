@@ -15,6 +15,12 @@ struct Node *MakeNode(int element)
     return new_node_pointer;
 }
 
+void MakeNewList(struct Node **initial_node)
+{
+    //Make element of header node -1
+    *initial_node = MakeNode(-1);
+}
+
 int main(int argc, const char *argv[])
 {
 
