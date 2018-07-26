@@ -32,6 +32,20 @@ struct Node *FindNode(struct Node *linked_list, int key_element)
     return checked_node;
 }
 
+void Insert(struct Node *linked_list, int prev_node_element, int element)
+{
+    struct Node *prev_node = FindNode(linked_list, prev_node_element);
+
+    if(prev_node){
+        struct Node *new_node = MakeNode(element);
+        new_node->next = prev_node->next;
+        prev_node->next = new_node;
+    }
+    else{
+        printf("Insertion (%d) Failed : element %d is not in the list \n", element, prev_node_element);
+    }
+}
+
 int main(int argc, const char *argv[])
 {
 
