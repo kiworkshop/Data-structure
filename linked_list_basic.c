@@ -7,6 +7,14 @@ struct Node
     struct Node *next;
 };
 
+struct Node *MakeNode(int element)
+{
+    struct Node *new_node_pointer = (struct Node *)malloc(sizeof(struct Node));
+    new_node_pointer->element = element;
+    new_node_pointer->next = NULL;
+    return new_node_pointer;
+}
+
 int main(int argc, const char *argv[])
 {
 
