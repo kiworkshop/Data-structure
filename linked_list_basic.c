@@ -61,6 +61,25 @@ void Insert(struct Node *linked_list, int prev_node_element, int element)
     }
 }
 
+void Delete(struct Node *list, int key_element)
+{
+    struct Node *deleted_node = FindNode(list, key_element);
+    struct Node *prev_node = FindPrevNode(list, key_element);
+    struct Node *temp;
+
+    if(!deleted_node){
+        printf("Deletion failed : element %d is not in the list.\n", key_element);
+    }
+    else if(deleted_node == list){
+        printf("Deletion failed : Could not delete header.\n");
+    }
+    else{
+        temp = deleted_node;
+        prev_node->next = deleted_node->next;
+        free(temp);
+    }
+}
+
 int IsEmpty(struct Node *list)
 {
     return (list->next == NULL);
