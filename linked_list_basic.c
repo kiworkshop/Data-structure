@@ -61,6 +61,29 @@ void Insert(struct Node *linked_list, int prev_node_element, int element)
     }
 }
 
+int IsEmpty(struct Node *list)
+{
+    return (list->next == NULL);
+}
+
+void PrintList(struct Node *list)
+{
+    struct Node *printed_node = list->next;
+    int index = 1;
+    
+    while(printed_node != NULL)
+    {
+        printf("[%d] key : %d    ", index++, printed_node->element);
+        printed_node = printed_node->next;
+    }
+    printf("\n");
+
+    if(IsEmpty(list))
+    {
+        printf("List is empty\n");
+    }
+}
+
 int main(int argc, const char *argv[])
 {
 
