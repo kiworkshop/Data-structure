@@ -32,6 +32,16 @@ struct Node *FindNode(struct Node *linked_list, int key_element)
     return checked_node;
 }
 
+struct Node *FindPrevNode(struct Node *linked_list, int key_element)
+{
+    struct Node *checked_node = linked_list;
+
+    while((checked_node->next != NULL)&&(checked_node->next->element != key_element)){
+        checked_node = checked_node->next;
+    }
+    return checked_node;
+}
+
 void Insert(struct Node *linked_list, int prev_node_element, int element)
 {
     struct Node *prev_node = FindNode(linked_list, prev_node_element);
