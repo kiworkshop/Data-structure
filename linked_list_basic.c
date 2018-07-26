@@ -21,9 +21,9 @@ void MakeNewList(struct Node **initial_node)
     *initial_node = MakeNode(-1);
 }
 
-struct Node *FindNode(struct Node *linked_list, int key_element)
+struct Node *FindNode(struct Node *list, int key_element)
 {
-    struct Node *checked_node = linked_list;
+    struct Node *checked_node = list;
 
     while ((checked_node != NULL) && (checked_node->element != key_element)){
         checked_node = checked_node->next;
@@ -32,13 +32,13 @@ struct Node *FindNode(struct Node *linked_list, int key_element)
     return checked_node;
 }
 
-struct Node *FindPrevNode(struct Node *linked_list, int key_element)
+struct Node *FindPrevNode(struct Node *list, int key_element)
 {
-    if(FindNode(linked_list, key_element) == NULL){
+    if(FindNode(list, key_element) == NULL){
         return NULL;
     }
     else{        
-        struct Node *checked_node = linked_list;
+        struct Node *checked_node = list;
 
         while((checked_node->next != NULL)&&(checked_node->next->element != key_element)){
             checked_node = checked_node->next;
@@ -47,9 +47,9 @@ struct Node *FindPrevNode(struct Node *linked_list, int key_element)
     }
 }
 
-void Insert(struct Node *linked_list, int prev_node_element, int element)
+void Insert(struct Node *list, int prev_node_element, int element)
 {
-    struct Node *prev_node = FindNode(linked_list, prev_node_element);
+    struct Node *prev_node = FindNode(list, prev_node_element);
 
     if(prev_node){
         struct Node *new_node = MakeNode(element);
