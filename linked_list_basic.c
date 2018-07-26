@@ -103,6 +103,38 @@ void PrintList(struct Node *list)
     }
 }
 
+void ExecuteBufferLine(struct Node *list, char *buffer)
+{
+    char command;
+    int new_element;
+    int key_element;
+
+    command = buffer[0];
+
+        if(command =='i'){
+            sscanf(buffer, "%c %d %d", &command, &new_element, &key_element);
+            Insert(list, key_element, new_element);
+        }
+        else if(command =='d'){
+            sscanf(buffer, "%c %d", &command, &key_element);
+            Delete(list, key_element);
+        }
+        else if(command =='f'){
+            sscanf(buffer, "%c %d", &command, &key_element);
+            struct Node *p = FindPrevNode(list, key_element);
+            if(p==list)
+                printf("Key of the previous node of %d is header\n", key_element);
+            else if(p==NULL)
+                printf("Could not find %d in the list\n", key_element);
+            else
+                printf("Key of the previous node of %d is %d\n", key_element, p->element);
+        }
+        else if(command =='p'){
+            PrintList(list);
+        }
+        else printf("Wrong instruction.\n");
+}
+
 int main(int argc, const char *argv[])
 {
 
