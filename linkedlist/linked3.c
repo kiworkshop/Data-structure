@@ -6,50 +6,50 @@
 #define MAX_ARGUMENT 2
 #define MAX_ENROLLMENT 30
 
-enum command_t {
+enum Command {
     UNKNOWN,
     INSERT,
     DELETE,
     PRINT,
 };
 
-struct commandline_t {
+struct CommandLine {
     char buf[MAX_BUF];
-    enum command_t command;
+    enum Command command;
     int arguments[MAX_ARGUMENT];
 };
 
-struct student_t { 
-    char studentID[12];
+struct Student { 
+    char studentId[12];
     char studentName[20];
 };
 
-struct node_t {
-    struct student_t student;
-    struct node_t *next;
+struct Node {
+    struct Student student;
+    struct Node *next;
 };
 
-struct node_t *CreateNode(struct student_t *student) {
-    struct node_t *pos = (struct node_t*) malloc(sizeof(struct node_t));
-    memcpy(&(pos->student), student, sizeof(struct student_t));
+struct Node *CreateNode(struct Student *student) {
+    struct Node *pos = (struct Node*) malloc(sizeof(struct Node));
+    memcpy(&(pos->student), student, sizeof(struct Student));
     pos->next = NULL;
 
     return pos;
 }
 
-void *CreateList(struct node_t **list_ptr) {
-   struct student_t header = {
-       .studentID = "-1",
+void *CreateList(struct Node **list_ptr) {
+   struct Student header = {
+       .studentId = "-1",
        .studentName = "header",
    };
    *list_ptr = CreateNode(&header);
 }
 
-struct node_t *Find(struct student_t *student, struct node_t *list) {
-    struct node_t *pos = list;
+struct Node *Find(struct Student *student, struct Node *list) {
+    struct Node *pos = list;
     
     while (pos != NULL) {
-        if (strcmp(student->studentID, (pos->student).studentID) == 0) {
+        if (strcmp(student->studentId, (pos->student).studentId) == 0) {
             break;
         }
         pos = pos->next;
@@ -57,46 +57,41 @@ struct node_t *Find(struct student_t *student, struct node_t *list) {
     return pos;
 }
 
-void PrintList(struct node_t *list) {
-    struct node_t *pos = list;
+void PrintList(struct Node *list) {
+    struct Node *pos = list;
     pos = pos->next;
     while (pos != NULL) {
-        printf("current list>> %s %s  ", (pos->student).studentID, (pos->student).studentName);
+        printf("current list>> %s %s  ", (pos->student).studentId, (pos->student).studentName);
         pos = pos->next;
     }
     printf("\n");
 }
 
-void Insert(struct student_t *student, struct node_t *list, int *enroll_num) {
+void Insert(struct Student *student, struct Node *list, int *enroll_num) {
     if (Find(student, list) == NULL & *enroll_num < MAX_ENROLLMENT) {
-        struct node_t *pos = list;
-        struct node_t *prev;
-        struct node_t *new = CreateNode(student);
-        while (pos->next != NULL & atoi((pos->student).studentID) < atoi(student->studentID)) {
+        struct Node *pos = list;
+        struct Node *prev = list;
+        struct Node *new = CreateNode(student);
+        while (pos->next != NULL & atoi((pos->student).studentId) < atoi(student->studentId)) {
             prev = pos;
             pos = pos->next;
         }
-        if (atoi(pos->student.studentID) == -1) {
-            new->next = pos->next;
-            pos->next = new;
-        } else {
-            new->next = prev->next;
-            prev->next = new;
-        }
+        new->next = prev->next;
+        prev->next = new;
 
         PrintList(list);
         *enroll_num += 1;
     } else {
-        printf("There already is an element with key %s. Insertion failed.\n", student->studentID);    
+        printf("There already is an element with key %s. Insertion failed.\n", student->studentId);    
     }  
 }
 
-void Delete(struct student_t *student, struct node_t *list, int *enroll_num) {
-    struct node_t *del = Find(student,list);
+void Delete(struct Student *student, struct Node *list, int *enroll_num) {
+    struct Node *del = Find(student, list);
     if (del == NULL) {
-        printf("Deletion failed: %s is not in the list\n", student->studentID);
+        printf("Deletion failed: %s is not in the list\n", student->studentId);
     } else {
-        struct node_t *pos = list;
+        struct Node *pos = list;
         while (pos->next != del) {
             pos = pos->next;
         }
@@ -106,9 +101,9 @@ void Delete(struct student_t *student, struct node_t *list, int *enroll_num) {
     }
 }
 
-void FreeAll(struct node_t *list) {
-    struct node_t *pos = list;
-    struct node_t *free_node;
+void FreeAll(struct Node *list) {
+    struct Node *pos = list;
+    struct Node *free_node;
     while (pos != NULL) {
         free_node = pos;
         pos = pos->next;
@@ -116,18 +111,18 @@ void FreeAll(struct node_t *list) {
     }
 }
 
-void *ParseCommandLine(struct commandline_t *commandline, struct student_t **st_ptr) {
+void *ParseCommandLine(struct CommandLine *commandline, struct Student **st_ptr) {
     char command = commandline->buf[0];
-    *st_ptr = malloc(sizeof(struct student_t));
+    *st_ptr = malloc(sizeof(struct Student));
 
     switch (command) {
         case 'i':
             commandline->command = INSERT;
-            sscanf(commandline->buf, "%*c %s %[^\n]s", ((*st_ptr)->studentID), ((*st_ptr)->studentName));
+            sscanf(commandline->buf, "%*c %s %[^\n]s", ((*st_ptr)->studentId), ((*st_ptr)->studentName));
             break;
         case 'd':
             commandline->command = DELETE;
-            sscanf(commandline->buf, "%*c %s", ((*st_ptr)->studentID));
+            sscanf(commandline->buf, "%*c %s", ((*st_ptr)->studentId));
             break;
         case 'p':
             commandline->command = PRINT;
@@ -139,18 +134,18 @@ int main(int argc, const char *argv[]){
     if (argc == 2) {
         FILE *fp = fopen(argv[1], "r");
         if (fp) {
-            struct commandline_t commandline;
-            struct student_t *student;
-            struct node_t *list;
+            struct CommandLine commandline;
+            struct Student *student;
+            struct Node *list;
             CreateList(&list);
             int enroll_num = 0;
             while (fgets(commandline.buf, sizeof(commandline.buf), fp)) {
                 ParseCommandLine(&commandline, &student);
                 switch (commandline.command) {
                     case INSERT:
-                        Insert(student,list, &enroll_num); break;
+                        Insert(student, list, &enroll_num); break;
                     case DELETE:
-                        Delete(student,list, &enroll_num); break;
+                        Delete(student, list, &enroll_num); break;
                     case PRINT:
                         PrintList(list); break;
                     case UNKNOWN:
