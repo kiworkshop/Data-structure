@@ -58,17 +58,18 @@ void FreeStack(struct Stack *stack) {
 void Printout(char *converted) {
     printf("\nconverted postfix form: ");
     for (int i = 0; i < 64; i++) {
-        printf("%c",converted[i]);
+        printf("%c", converted[i]);
     }
     printf("\n");
 }
 
-int CharToInt(char *letter) {
-    return *letter - 48;
+// Operand is 1 ~ 9 single digit integer.
+int IsOperand(char letter) {
+    return letter > 48 && letter < 58;
 } 
 
-int Priority(char *operator) {
-    switch (*operator) {
+int Priority(char operator) {
+    switch (operator) {
         case '+': return 1; break;
         case '-': return 1; break;
         case '*': return 2; break;
@@ -80,8 +81,23 @@ int Priority(char *operator) {
     }
 }
 
-void ConvertToPostfix(char *letter, char *output, int *count, struct Stack *stack){
-
+void ConvertToPostfix(char letter, char *output, int *count, struct Stack *stack){
+    if (IsOperand(letter)) {
+        output[*count] = letter;
+    } else {
+        char top = Top(stack);
+        if (top != '(') {
+            while (!IsEmpty(stack) && Priority(letter) <= Priority(top)) {
+                if (Top(stack) == '(' || Top(stack) == ')') {
+                    Pop(stack);
+                } else {
+                    output[*count] = Pop(stack);
+                    *count = *count + 1;
+                }
+            }
+        }
+        Push(stack, letter);
+    }
 }
 
 int main(int argc, const char *argv[]) {
@@ -96,7 +112,7 @@ int main(int argc, const char *argv[]) {
             while (buf != '#') {
                 buf = fgetc(fp);
                 printf("%c", buf);
-                ConvertToPostfix(&buf, output, &count, stack);
+                ConvertToPostfix(buf, output, &count, stack);
                 count++;
             }
             Printout(output);
