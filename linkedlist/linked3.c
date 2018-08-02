@@ -44,15 +44,31 @@ void *CreateList(struct Node **list_ptr) {
    };
    *list_ptr = CreateNode(&header);
 }
+int IsLast(struct Node *pos) {
+    return pos->next == NULL;
+}
 
 struct Node *Find(struct Student *student, struct Node *list) {
     struct Node *pos = list;
-    
     while (pos != NULL) {
         if (strcmp(student->studentId, (pos->student).studentId) == 0) {
             break;
         }
         pos = pos->next;
+    }
+    return pos;
+}
+
+struct Node *FindPrevious(struct Student *student, struct Node *list) {
+    struct Node *pos = list;
+    while (pos->next != NULL) {
+        if (strcmp(student->studentId, (pos->next->student).studentId) == 0) {
+            break;
+        }
+        pos = pos->next;
+    }
+    if (IsLast(pos)) {
+        return NULL;
     }
     return pos;
 }
@@ -87,18 +103,18 @@ void Insert(struct Student *student, struct Node *list, int *enroll_num) {
 }
 
 void Delete(struct Student *student, struct Node *list, int *enroll_num) {
-    struct Node *del = Find(student, list);
-    if (del == NULL) {
-        printf("Deletion failed: %s is not in the list\n", student->studentId);
-    } else {
-        struct Node *pos = list;
-        while (pos->next != del) {
-            pos = pos->next;
-        }
-        pos->next = del->next;
-        free(del);
-        *enroll_num -= 1;
+    struct Node *prev = FindPrevious(student, list);
+    struct Node *del = NULL;
+    if (prev != NULL) {
+        del = prev->next;
     }
+    if (prev == NULL || del == NULL) {
+        printf("Deletion failed: %s is not in the list\n", student->studentId);
+        return;
+    }
+    prev->next = del->next;
+    free(del);
+    *enroll_num -= 1;
 }
 
 void FreeAll(struct Node *list) {
@@ -107,7 +123,7 @@ void FreeAll(struct Node *list) {
     while (pos != NULL) {
         free_node = pos;
         pos = pos->next;
-        free(freeNode);
+        free(free_node);
     }
 }
 
@@ -130,7 +146,7 @@ void *ParseCommandLine(struct CommandLine *commandline, struct Student **st_ptr)
     }
 }
 
-int main(int argc, const char *argv[]){
+int main(int argc, const char *argv[]) {
     if (argc == 2) {
         FILE *fp = fopen(argv[1], "r");
         if (fp) {
@@ -153,10 +169,10 @@ int main(int argc, const char *argv[]){
                 }
             }
             fclose(fp);
-        }else{
+        } else {
             printf("file open error \n");
         }
-    }else{
+    } else {
         printf("usage: {executable} {input text file_ex.lab3_input.txt}\n");
     }
     return 0;
