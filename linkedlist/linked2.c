@@ -56,12 +56,15 @@ void Insert(int element, int prev, struct Node *list) {
 }
 
 void Delete(int element, struct Node *list) {
-    struct Node *del = Find(element, list);
-    if (del == NULL) {
+    struct Node *prev = FindPrevious(element, list);
+    struct Node *del = NULL;
+    if (prev != NULL) {
+        del = prev->next;
+    }
+    if (prev == NULL || del == NULL) {
         printf("Deletion failed: element %d is not in the list\n", element);
         return;
     }
-    struct Node *prev = FindPrevious(element, list);
     prev->next = del->next;
     free(del);
 }
@@ -69,7 +72,7 @@ void Delete(int element, struct Node *list) {
 void PrintListNodes(struct Node *list) {
     struct Node *pos = list->next;
     while (pos != NULL) {
-        printf("key: %d \t",pos->element);
+        printf("key: %d \t", pos->element);
         pos = pos->next;
     }
     printf("\n");
