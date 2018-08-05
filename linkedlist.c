@@ -5,17 +5,17 @@
 typedef struct Node* ListPointer;
 
 struct Node {
-    int element;
+    int target;
     ListPointer next;
 };
 
-ListPointer MakeEmpty(ListPointer list);
+ListPointer CreateNode(int target);
 int IsEmpty(ListPointer list);
 int IsLast(ListPointer current);
-void DeleteNode(int data, ListPointer list);
-ListPointer FindPrevious(int data, ListPointer list);
-ListPointer Find(int data, ListPointer list);
-void Insert(int data, int position, ListPointer list);
+void DeleteNode(int target, ListPointer list);
+ListPointer FindPrevious(int target, ListPointer list);
+ListPointer Find(int target, ListPointer list);
+void Insert(int target, int position, ListPointer list);
 void DeleteList(ListPointer list);
 
 int main(){
@@ -28,8 +28,7 @@ int main(){
         return 1;
     }
 
-    ListPointer list = malloc(sizeof(struct Node));
-    list = MakeEmpty(list);
+    ListPointer list = CreateNode(0);
 
     while (!feof(fp)) {
         fscanf(fp, "%c %d %d", &command, &target, &position);
@@ -49,11 +48,11 @@ int main(){
                     printf("Could not find %d in the list \n", target);
                 } 
                 else {
-                    if (previous->element == 0) {
+                    if (previous->target == 0) {
                         printf("Key of the previous node of %d is header.\n", target);
                     } 
                     else {
-                        printf("Key of the previous node of %d is %d.\n", target, previous->element);
+                        printf("Key of the previous node of %d is %d.\n", target, previous->target);
                     } 
                 } 
                 break;
@@ -61,7 +60,7 @@ int main(){
             case'p': {
                 ListPointer current = list->next;
                 while (current != NULL) {
-                    printf("Key: %d ", current->element);
+                    printf("Key: %d ", current->target);
                     current = current->next;
                 }
                 break;
@@ -75,10 +74,11 @@ int main(){
     return 0;
 }
 
-ListPointer MakeEmpty(ListPointer list) {
-    list->next = NULL;
-    list->element = 0;    
-    return list;
+ListPointer CreateNode(int target) {
+    ListPointer new_node = malloc(sizeof(struct Node));
+    new_node->target = target;
+    new_node->next = NULL;
+    return new_node;
 }
 
 int IsEmpty(ListPointer list) {
@@ -89,11 +89,11 @@ int IsLast(ListPointer current) {
     return current->next == NULL;
 }
 
-void DeleteNode(int data, ListPointer list) {
+void DeleteNode(int target, ListPointer list) {
     ListPointer previous, tmp_cell;
-    previous = FindPrevious(data, list);    
+    previous = FindPrevious(target, list);    
     if (previous->next == NULL) {
-        printf("Deletion failed : element %d is not int the list \n", data);
+        printf("Deletion failed : element %d is not int the list \n", target);
     }   
     else {
         if (!IsLast(previous)) {
@@ -104,41 +104,36 @@ void DeleteNode(int data, ListPointer list) {
     }
 }
 
-ListPointer FindPrevious(int data, ListPointer list) {
+ListPointer FindPrevious(int target, ListPointer list) {
     ListPointer previous = list;
-    while (previous->next != NULL && previous->next->element != data)
+    while (previous->next != NULL && previous->next->target != target)
         previous = previous->next;    
     return previous;
 }
 
-ListPointer Find(int data, ListPointer list) {
+ListPointer Find(int target, ListPointer list) {
     ListPointer current = list->next;
-    while (current != NULL && current->element != data)
+    while (current != NULL && current->target != target)
         current = current->next;
     return current;
 }
 
-void Insert(int data, int position, ListPointer list) {
-    ListPointer after_data, tmp_cell;
-    tmp_cell = malloc(sizeof(struct Node));
-    tmp_cell->element = data;
+void Insert(int target, int position, ListPointer list) {
+    ListPointer after_target, tmp_cell;
+    tmp_cell = CreateNode(target);
     if (position == -1) {
-        if (IsLast(list)) {
-            list->next = tmp_cell;
-        }
-        else {
-            tmp_cell->next = list->next;
-            list->next = tmp_cell;
-        } 
+        tmp_cell->next = list->next;
+        list->next = tmp_cell;
+       
     }
     else {
-        after_data = Find(position, list);
-        if (after_data == NULL) {
-            printf("Insertion(%d) Failed : element %d is not in the list \n", data, position);
+        after_target = Find(position, list);
+        if (after_target == NULL) {
+            printf("Insertion(%d) Failed : element %d is not in the list \n", target, position);
         } 
         else {
-            tmp_cell->next = after_data->next;
-            after_data->next = tmp_cell;
+            tmp_cell->next = after_target->next;
+            after_target->next = tmp_cell;
         }
     }     
 }
