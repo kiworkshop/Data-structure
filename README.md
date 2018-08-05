@@ -6,18 +6,18 @@
 
 # 2018
 
-| 과제                         | 조광일 |                            구미향                            |                            김덕수                            | 남현길 | 신동욱 |
-| :--------------------------- | :----: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----: | :----: |
-| Linked list: basic           |        | [코드리뷰 진행중 PR#2](https://github.com/kiworkshop/data-structure/pull/2) | [코드리뷰 진행중 PR#3](https://github.com/kiworkshop/data-structure/pull/3) |        |        |
-| Linked list: application     |        | [코드리뷰 진행중 PR#2](https://github.com/kiworkshop/data-structure/pull/2) | [코드리뷰 진행중 PR#3](https://github.com/kiworkshop/data-structure/pull/3) |        |        |
-| Stack: infix to postfix      |        |                                                              |                                                              |        |        |
-| Stack: postfix evaluation    |        |                                                              |                                                              |        |        |
-| Queue: circular queue        |        |                                                              |                                                              |        |        |
-| Heap: max heap               |        |                                                              |                                                              |        |        |
-| Binary search tree: basic    |        |                                                              |                                                              |        |        |
-| Binary search tree: AVL tree |        |                                                              |                                                              |        |        |
-| Hash: basic                  |        |                                                              |                                                              |        |        |
-| Hash: bloom filter           |        |                                                              |                                                              |        |        |
-| Graph: topological sort      |        |                                                              |                                                              |        |        |
-| Graph: Dijkstra's algorithm  |        |                                                              |                                                              |        |        |
+| 과제                         | 조광일 |                            구미향                            |                            김덕수                            |                            남현길                            | 신동욱 |
+| :--------------------------- | :----: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----: |
+| Linked list: basic           |        | [완료 PR#2](https://github.com/kiworkshop/data-structure/pull/2) | [코드리뷰 진행중 PR#3](https://github.com/kiworkshop/data-structure/pull/3) | [코드리뷰 진행중 PR#5](https://github.com/kiworkshop/data-structure/pull/5) |        |
+| Linked list: application     |        | [완료 PR#2](https://github.com/kiworkshop/data-structure/pull/2) | [코드리뷰 진행중 PR#3](https://github.com/kiworkshop/data-structure/pull/3) |                                                              |        |
+| Stack: infix to postfix      |        | [완료 PR#2](https://github.com/kiworkshop/data-structure/pull/2) |                                                              |                                                              |        |
+| Stack: postfix evaluation    |        | [완료 PR#2](https://github.com/kiworkshop/data-structure/pull/2) |                                                              |                                                              |        |
+| Queue: circular queue        |        |                                                              |                                                              |                                                              |        |
+| Heap: max heap               |        |                                                              |                                                              |                                                              |        |
+| Binary search tree: basic    |        |                                                              |                                                              |                                                              |        |
+| Binary search tree: AVL tree |        |                                                              |                                                              |                                                              |        |
+| Hash: basic                  |        |                                                              |                                                              |                                                              |        |
+| Hash: bloom filter           |        |                                                              |                                                              |                                                              |        |
+| Graph: topological sort      |        |                                                              |                                                              |                                                              |        |
+| Graph: Dijkstra's algorithm  |        |                                                              |                                                              |                                                              |        |
 
