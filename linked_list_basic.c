@@ -25,18 +25,16 @@ struct Node *FindNode(struct Node *list, int key_element) {
     return checked;
 }
 
-struct Node *FindPrevNode(struct Node *list, int key_element) {
-    if (FindNode(list, key_element) == NULL) {
-        return NULL;
+struct Node *FindPrevNode(struct Node *list, int key_element) {      
+    struct Node *checked = list;
+    while ((checked->next != NULL) && (checked->next->element != key_element)) {
+        checked = checked->next;
     }
-    else {        
-        struct Node *checked = list;
 
-        while ((checked->next != NULL) && (checked->next->element != key_element)) {
-            checked = checked->next;
-        }
-        return checked;
+    if (checked->next == NULL) {
+        checked = NULL;    //checked의 next가 NULL인 경우 key_element가 list 내에 존재하지 않는다.
     }
+    return checked;
 }
 
 void Insert(struct Node *list, int prev_node_element, int element) {
@@ -52,16 +50,16 @@ void Insert(struct Node *list, int prev_node_element, int element) {
 }
 
 void Delete(struct Node *list, int key_element) {
-    struct Node *deleted = FindNode(list, key_element);
-    struct Node *prev = FindPrevNode(list, key_element);
+    struct Node *prev = FindPrevNode(list, key_element);    //Delete 하려는 node는 prev->next이다. 
     struct Node *temp;
-    if (!deleted) {
+    if (!prev) {
         printf("Deletion failed : element %d is not in the list.\n", key_element);
     }
-    else if (deleted == list) {
+    else if (prev->next == list) {    //Delete 하려는 element가 header인 경우, error message
         printf("Deletion failed : Could not delete header.\n");
     }
     else {
+        struct Node *deleted = prev->next;
         temp = deleted;
         prev->next = deleted->next;
         free(temp);
@@ -92,30 +90,30 @@ void ExecuteBufferLine(struct Node *list, char *buffer) {
     int key_element;
     command = buffer[0];
 
-    if (command == 'i') {
-        printf("ok");
-        sscanf(buffer, "%c %d %d", &command, &new_element, &key_element);
-        Insert(list, key_element, new_element);
-    }
-    else if (command == 'd') {
-        sscanf(buffer, "%c %d", &command, &key_element);
-        Delete(list, key_element);
-    }
-    else if (command == 'f') {
-        sscanf(buffer, "%c %d", &command, &key_element);
-        struct Node *p = FindPrevNode(list, key_element);
-        if (p == list)
-            printf("Key of the previous node of %d is header\n", key_element);
-        else if (p == NULL)
-            printf("Could not find %d in the list\n", key_element);
-        else
-            printf("Key of the previous node of %d is %d\n", key_element, p->element);
-    }
-    else if (command == 'p') {
-        PrintList(list);
-    }
-    else {
-        printf("Wrong instruction.\n");
+    switch (command) {
+        case 'i':
+            sscanf(buffer, "%c %d %d", &command, &new_element, &key_element);
+            Insert(list, key_element, new_element);
+            break;
+        case 'd':
+            sscanf(buffer, "%c %d", &command, &key_element);
+            Delete(list, key_element);
+            break;
+        case 'f':
+            sscanf(buffer, "%c %d", &command, &key_element);
+            struct Node *p = FindPrevNode(list, key_element);
+            if (p == list)
+                printf("Key of the previous node of %d is header\n", key_element);
+            else if (p == NULL)
+                printf("Could not find %d in the list\n", key_element);
+            else
+                printf("Key of the previous node of %d is %d\n", key_element, p->element);
+            break;
+        case 'p':
+            PrintList(list);
+            break;
+        default:
+            printf("Wrong instruction.\n");
     }
 }
 
@@ -131,6 +129,6 @@ int main(int argc, const char *argv[]) {
         ExecuteBufferLine(list, buffer);
     }
     fclose(fp);
-    
+
     return 0;
 }
