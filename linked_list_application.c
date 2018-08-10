@@ -59,6 +59,25 @@ struct Node *FindPrevNode(struct Node *list, char *student_id) {
     }
 }
 
+void PrintList(struct Node *list) {
+    struct Node *printed = list->next;
+    while (printed!=NULL) {
+        printf("%s  %s      ", printed->student_id, printed->student_name);
+        printed = printed->next;
+    }
+    printf("\n");
+}
+
+void PrintNode(struct Node *list, char *student_id) {
+    struct Node *printed = FindNode(list, student_id);
+    if (printed == NULL) {
+        printf("There is no element having student ID %s", student_id);
+    }
+    else {
+        printf("%s\n", printed->student_name);
+    }
+}
+
 int main(int argc, const char *argv[]) {
     return 0;
 }
