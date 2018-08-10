@@ -164,7 +164,7 @@ void ChooseOperations(struct Node *list, char *buffer) {
 }
 
 int main(int argc, const char *argv[]) {
-    struct Node *student_list;
+    struct Node *student_list = (struct Node *)malloc(sizeof(struct Node) * (MAX_ENROLLMENT + 1));
     MakeList(&student_list);
     char buffer[50];
     
