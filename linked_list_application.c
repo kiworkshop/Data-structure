@@ -130,6 +130,51 @@ void Delete(struct Node *list, char *student_id) {
     }
 }
 
+void ChooseOperations(struct Node *list, char *buffer) {
+    char command;
+    command = buffer[0];
+
+    switch (command) {
+        case 'i': {
+            char *student_id_m = (char *)malloc(sizeof(char)*6);
+            char *student_name_m = (char *)malloc(sizeof(char)*30);
+            sscanf(buffer, "%c %s %[^\n]s", &command, student_id_m, student_name_m);
+            Insert(list, student_id_m, student_name_m);
+            break;
+        }
+        case 'd': {
+            char student_id[5];
+            sscanf(buffer, "%c %s", &command, student_id);
+            Delete(list, student_id);
+            break;
+        }
+        case 'f': {
+            char student_id[5];
+            sscanf(buffer, "%c %s", &command, student_id);
+            PrintNode(list, student_id);
+            break;
+        }
+        case 'p': {
+            PrintList(list);
+            break;
+        }
+        default:
+            printf("Wrong instruction.\n");
+    }
+}
+
 int main(int argc, const char *argv[]) {
+    struct Node *student_list;
+    MakeList(&student_list);
+    char buffer[50];
+    
+    FILE *fp = fopen(argv[1],"r");
+    while (1) {
+        if (fgets(buffer, sizeof(buffer), fp) == NULL)
+            break;      
+        ChooseOperations(student_list, buffer);
+    }
+    fclose(fp);
+
     return 0;
 }
