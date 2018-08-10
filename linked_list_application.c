@@ -78,6 +78,58 @@ void PrintNode(struct Node *list, char *student_id) {
     }
 }
 
+void Insert(struct Node *list, char *student_id, char *student_name) {
+    struct Node *prev_of_inserted = list;    //list의 header에서부터 inserted될 node의 prev 찾기 시작
+    int integer_prev = IdToInteger(prev_of_inserted->student_id);
+    int integer_inserted = IdToInteger(student_id);
+    int integer_next = 0;   //insert될 node의 next node student_id의 integer 변환값을 저장할 변수
+    
+    if (IsEmpty(list)) {   //line 50~62 : prev_of_inserted를 찾는 code
+        //list에 어떠한 node도 없는 경우, list의 header의 next에 insert
+    }
+    else {
+        integer_next = IdToInteger(prev_of_inserted->next->student_id);
+        while (integer_inserted > integer_next) {
+            prev_of_inserted = prev_of_inserted->next;
+            if (IsLast(prev_of_inserted))
+                break;
+            integer_next = IdToInteger(prev_of_inserted->next->student_id);
+        }
+    }
+
+    if (integer_inserted == integer_next) {     //insert되는 학생의 id가 list에 존재하는 경우 error message
+        printf("There already is an element with key %s. Insertion failed.\n", student_id);
+    }
+    else {      //찾은 prev_of_inserted의 next node에 새로운 node를 추가
+        struct Node *new = MakeNode(student_id, student_name);
+        struct Node *temp;    //insert되는 node의 next node를 저장하기 위한 변수        
+        temp = prev_of_inserted->next;
+        prev_of_inserted->next = new;
+        new->next = temp;
+
+        printf("Insertion success : %s\n", student_id);        
+        printf("Current List> ");
+        PrintList(list);
+    }
+}
+
+void Delete(struct Node *list, char *student_id) {
+    struct Node *prev_deleted = FindPrevNode(list, student_id);
+    if (!prev_deleted) {
+        printf("Deletion failed : element %s is not in the list\n", student_id);
+    }
+    else {
+        struct Node *temp;
+        temp = prev_deleted->next;    //temp에 delete 할 node를 할당
+        prev_deleted->next = temp->next;
+        free(temp);
+        
+        printf("Deletion success : %s\n", student_id);
+        printf("Current List> ");
+        PrintList(list);
+    }
+}
+
 int main(int argc, const char *argv[]) {
     return 0;
 }
