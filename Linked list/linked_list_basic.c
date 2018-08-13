@@ -30,24 +30,24 @@ struct CommandLine{
 
 struct Node *CreateNode(int element)
 {
-    struct Node *new_node = (struct Node *)malloc(sizeof(struct Node));
-    new_node->element = element;
-    new_node->next = NULL;
+    struct Node *new = (struct Node *)malloc(sizeof(struct Node));
+    new->element = element;
+    new->next = NULL;
 
-    return new_node;
+    return new;
 }
 
 struct List *CreateList()
 {
-    struct List *new_list = (struct List *)malloc(sizeof(struct List));
-    new_list->header = CreateNode(-1);
+    struct List *new = (struct List *)malloc(sizeof(struct List));
+    new->header = CreateNode(-1);
 
-    return new_list;
+    return new;
 }
 
-int IsEmpty(struct Node *list)
+int IsEmpty(struct List *list)
 {
-    return list->next == NULL;
+    return list->header->next == NULL;
 }
 
 struct Node *Find(int element, struct List *list)
@@ -56,9 +56,8 @@ struct Node *Find(int element, struct List *list)
     while (pos) {
         if (pos->element == element) {
             break;
-        } else {
-            pos = pos->next;
         }
+        pos = pos->next;
     }
     return pos;
 }
@@ -69,9 +68,8 @@ struct Node *FindPrevious(int element, struct List *list)
     while (pos->next) {
         if (pos->next->element == element) {
             break;
-        } else {
-            pos = pos->next;
         }
+        pos = pos->next;
     }
     return pos;
 }
