@@ -33,7 +33,7 @@ void Prepend(struct LinkedList *linked_list, void *element) {
 }
 
 void *Delete(struct LinkedList *linked_list, void *element,
-            int (*Equals)(void *target, void *source)) {
+            int (*Equals)(void *compared, void *item)) {
     struct Node *prev = linked_list->head;
     struct Node *current = prev->next;
     void *data;
@@ -52,7 +52,7 @@ void *Delete(struct LinkedList *linked_list, void *element,
 }
 
 void *Find(struct LinkedList *linked_list, void *element,
-           int (*Equals)(void* target, void* source)) {
+           int (*Equals)(void* compared, void* item)) {
     struct Node *current = linked_list->head->next;
     while (current) {
         if (Equals(element, current->data))

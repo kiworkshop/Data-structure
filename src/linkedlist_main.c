@@ -4,7 +4,7 @@
 
 void PrintFunction(void *data) { printf("%d, ", *((int *)data)); }
 
-int Equals(void *target, void *source) { return *((int *)target) == *((int *)source); }
+int Equals(void *compared, void *item) { return *((int *)compared) == *((int *)item); }
 
 int main(int argc, char **argv) {
     struct LinkedListOp op = linked_list_op;

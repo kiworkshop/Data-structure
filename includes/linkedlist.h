@@ -16,9 +16,9 @@ struct LinkedListOp {
     void (*Append)(struct LinkedList *linked_list, void *element);
     void (*Prepend)(struct LinkedList *linked_list, void *element);
     void *(*Delete)(struct LinkedList *linked_list, void *element,
-                   int (*Equals)(void *target, void *source));
+                   int (*Equals)(void *compared, void *item));
     void *(*Find)(struct LinkedList *linked_list, void *element,
-                  int (*Equals)(void *target, void *source));
+                  int (*Equals)(void *compared, void *item));
     void (*ForEach)(struct LinkedList *linked_list,
                     void (*Function)(void *data));
     void (*Free)(struct LinkedList *linked_list);
