@@ -3,6 +3,9 @@ bin
 
 # Created by https://www.gitignore.io/api/c,vim
 
+### Visual Code ###
+.vscode
+
 ### C ###
 # Prerequisites
 *.d
