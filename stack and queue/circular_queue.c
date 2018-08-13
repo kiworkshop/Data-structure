@@ -36,45 +36,26 @@ struct Queue *CreateQueue(struct Queue *queue, int max) {
 }
 
 int IsEmpty(struct Queue *queue) {
-    if (queue->size == 0) {
-        return 1;
-    } else {
-        return 0;
-    }
+    return queue->size == 0;
 }
-
 int IsFull(struct Queue *queue) {
-    if (queue->size == queue->capacity) {
-        return 1;
-    } else {
-        return 0;
-    }
+    return queue->size == queue->capacity;
 }
-
 int Succ(int index, struct Queue *queue) {
-    if (++index == queue->capacity)
-        index = 0;
-    return index;
+    return ++index == queue->capacity ? 0 : index;
 }
 
 void PrintAll(struct Queue *queue) {
-    int front = queue->front;
-    int rear = queue->rear;
-    if (front < rear) {
-        for (int i = front; i < rear; i++) {
-            printf("%d\t", queue->array[i]);
-        }
-    } else if(front > rear || IsFull(queue)) {
-        for (int i = front; i < queue->capacity; i++) {
-            printf("%d\t", queue->array[i]);
-        }
-        for (int i = 0; i < rear; i++) {
-            printf("%d\t", queue->array[i]);
-        }
+    int pos;
+    if (IsEmpty(queue)) {
+        printf("The queue is empty. \t");
     } else {
-        printf("The queue is empty.\t ");
+        for (int i = 0; i < queue->size; i++) {
+            pos = i + queue->front < queue->capacity ? i + queue->front : i + queue->front - queue->capacity;
+            printf("%d\t", queue->array[pos]);
+        }
     }
-    printf("f: %d, r: %d\n", front, rear);
+    printf("f: %d, r: %d\n", queue->front, queue->rear);
 }
 
 struct Queue *Dequeue(struct Queue *queue) {
