@@ -8,17 +8,23 @@ struct Node {
 
 struct LinkedList {
     struct Node *head;
+    struct Node *tail;
 };
 
 struct LinkedListOp {
-    struct LinkedList* (*Instance) ();
-    void (*Append) (struct LinkedList *linkedList, void *element);
-    void (*Delete) (struct LinkedList *linkedList, int index);
-    void* (*Find) (struct LinkedList *linkedList, int index);
-    void (*Print) (struct LinkedList *linkedList);
-    void (*Free) (struct LinkedList *linkedList);
+    struct LinkedList *(*Instance)();
+    void (*Append)(struct LinkedList *linked_list, void *element);
+    void (*Prepend)(struct LinkedList *linked_list, void *element);
+    void *(*Delete)(struct LinkedList *linked_list, void *element,
+                   int (*Equals)(void *target, void *source));
+    void *(*Find)(struct LinkedList *linked_list, void *element,
+                  int (*Equals)(void *target, void *source));
+    void (*ForEach)(struct LinkedList *linked_list,
+                    void (*Function)(void *data));
+    void (*Free)(struct LinkedList *linked_list);
+    void (*FreeWithItems)(struct LinkedList *linked_list);
 };
 
-extern const struct LinkedListOp linkedListOp;
+extern const struct LinkedListOp linked_list_op;
 
 #endif  // __LINKEDLIST_H__
