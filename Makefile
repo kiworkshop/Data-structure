@@ -5,7 +5,7 @@ SRC=src
 BIN=bin
 INCLUDES=includes
 
-TARGETS = linkedlist stack
+TARGETS = linkedlist stack queue
 TEST_PROGRAMS := $(addsuffix _main.c, $(TARGETS))
 TEST_PROGRAMS := $(addprefix $(SRC)/, $(TEST_PROGRAMS))
 TEST_OBJECTS := $(TEST_PROGRAMS:.c=.o)
